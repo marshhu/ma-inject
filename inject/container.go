@@ -8,10 +8,13 @@ import (
 	"sync"
 )
 
+//生命周期
+// singleton：单例 单一实例，每次使用都是该实例
+// transient:瞬时实例,每次使用都创建新的实例
 type Container struct {
 	sync.Mutex
 	singletons map[string]interface{}
-	factories  map[string]factory
+	transients map[string]factory
 }
 
 type factory = func() (interface{}, error)
@@ -23,33 +26,29 @@ func (c *Container) SetSingleton(name string, singleton interface{}) {
 	c.Unlock()
 }
 
-//获取单例对象
 func (c *Container) GetSingleton(name string) interface{} {
 	return c.singletons[name]
 }
 
-//设置实例对象工厂
-func (c *Container) SetProtoType(name string, factory factory) {
+//注册瞬时实例创建工厂方法
+func (c *Container) SetTransient(name string, factory factory) {
 	c.Lock()
-	c.factories[name] = factory
+	c.transients[name] = factory
 	c.Unlock()
 }
 
-//获取实例对象
-func (c *Container) GetProtoType(name string) (interface{}, error) {
-	factory, ok := c.factories[name]
-	if !ok {
-		return nil, errors.New("factory not found")
-	}
-	return factory()
+func (c *Container) GetTransient(name string) interface{} {
+	factory := c.transients[name]
+	instance, _ := factory()
+	return instance
 }
 
-//注入依赖
+//注入实例
 func (c *Container) Entry(instance interface{}) error {
-	if reflect.TypeOf(instance).Kind() != reflect.Ptr {
-		return errors.New("必须为指针")
+	err := c.entryValue(reflect.ValueOf(instance))
+	if err != nil {
+		return err
 	}
-	c.entryValue(reflect.ValueOf(instance))
 	return nil
 }
 
@@ -72,71 +71,67 @@ func (c *Container) entryValue(value reflect.Value) error {
 		} else {
 			fmt.Println(fieldType.Name)
 			tag := fieldType.Tag.Get("inject")
-			diName := c.injectName(tag)
-			if diName == "" {
-				continue
-			}
-
-			var (
-				diInstance interface{}
-				err        error
-			)
-			if c.isSingleton(tag) {
-				diInstance = c.GetSingleton(diName)
-			}
-			if c.isProtoType(tag) {
-				diInstance, err = c.GetProtoType(diName)
-			}
-
+			injectInstance, err := c.getInstance(tag)
 			if err != nil {
 				return err
 			}
-			if diInstance == nil {
-				return errors.New(diName + "dependency not found")
-			}
-			c.entryValue(reflect.ValueOf(diInstance)) //递归注入
+			c.entryValue(reflect.ValueOf(injectInstance)) //递归注入
 
-			elemValue.Field(i).Set(reflect.ValueOf(diInstance))
+			elemValue.Field(i).Set(reflect.ValueOf(injectInstance))
 		}
 	}
 	return nil
 }
 
-func (c *Container) String() string {
-	lines := make([]string, 0, len(c.singletons)+len(c.factories)+2)
-	lines = append(lines, "singletons:")
-	for key, value := range c.singletons {
-		line := fmt.Sprintf("	%s: %x %s", key, c.singletons[key], reflect.TypeOf(value).String())
-		lines = append(lines, line)
-	}
-
-	lines = append(lines, "factories:")
-	for key, value := range c.factories {
-		line := fmt.Sprintf("	%s: %x %s", key, c.singletons[key], reflect.TypeOf(value).String())
-		lines = append(lines, line)
-	}
-	return strings.Join(lines, "\n")
-}
-
-func (c *Container) injectName(tag string) string {
+func (c *Container) getInstance(tag string) (interface{}, error) {
+	var injectName string
 	tags := strings.Split(tag, ",")
 	if len(tags) == 0 {
-		return ""
+		injectName = ""
+	} else {
+		injectName = tags[0]
 	}
-	return tags[0]
+
+	if c.isTransient(tag) {
+		factory, ok := c.transients[injectName]
+		if !ok {
+			return nil, errors.New("transient factory not found")
+		} else {
+			return factory()
+		}
+	} else { //默认单例
+		instance, ok := c.singletons[injectName]
+		if !ok || instance == nil {
+			return nil, errors.New(injectName + " dependency not found")
+		} else {
+			return instance, nil
+		}
+	}
 }
 
-//检测是否是实例依赖
-func (c *Container) isProtoType(tag string) bool {
+// transient:瞬时实例,每次使用都创建新的实例
+func (c *Container) isTransient(tag string) bool {
 	tags := strings.Split(tag, ",")
 	for _, name := range tags {
-		if name == "prototype" {
+		if name == "transient" {
 			return true
 		}
 	}
 	return false
 }
 
-func (c *Container) isSingleton(tag string) bool {
-	return !c.isProtoType(tag)
+func (c *Container) String() string {
+	lines := make([]string, 0, len(c.singletons)+len(c.transients)+2)
+	lines = append(lines, "singletons:")
+	for key, value := range c.singletons {
+		line := fmt.Sprintf("	%s: %x %s", key, c.singletons[key], reflect.TypeOf(value).String())
+		lines = append(lines, line)
+	}
+
+	lines = append(lines, "transients:")
+	for key, value := range c.transients {
+		line := fmt.Sprintf("	%s: %x %s", key, c.transients[key], reflect.TypeOf(value).String())
+		lines = append(lines, line)
+	}
+	return strings.Join(lines, "\n")
 }

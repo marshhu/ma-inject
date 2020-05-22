@@ -10,7 +10,7 @@ import (
 
 var GContainer = &Container{
 	singletons: make(map[string]interface{}),
-	factories:  make(map[string]factory),
+	transients: make(map[string]factory),
 }
 
 func Init() {
@@ -19,8 +19,7 @@ func Init() {
 	GContainer.SetSingleton("MockDBWrite", &db.MockDB{Host: "192.168.1.25:3036", User: "root", Pwd: "123456", Alias: "Write"})
 
 	//仓储
-	GContainer.SetSingleton("UserRead", &user.UserRead{})
-	GContainer.SetSingleton("UserWrite", &user.UserWrite{})
+	GContainer.SetSingleton("UserRepository", &user.UserRepository{})
 
 	//服务
 	GContainer.SetSingleton("UserService", &userDomain.UserService{})

@@ -7,12 +7,12 @@ import (
 	"ma-inject/app/domain/dtos/inputs"
 )
 
-type UserWrite struct {
+type UserRepository struct {
 	UserRead
 	WriteDb *db.MockDB `inject:"MockDBWrite"`
 }
 
-func (w *UserWrite) AddUser(user *inputs.UserInput) error {
+func (w *UserRepository) AddUser(user *inputs.UserInput) error {
 	model := entities.UserEntity{}
 	model.ID = w.GetMaxUserId() + 1
 	model.Name = user.Name
@@ -27,7 +27,7 @@ func (w *UserWrite) AddUser(user *inputs.UserInput) error {
 	return nil
 }
 
-func (w *UserWrite) UpdateUserNickName(id int64, nickName string) error {
+func (w *UserRepository) UpdateUserNickName(id int64, nickName string) error {
 	user := w.GetUser(id)
 	if user.ID > 0 {
 		user.NickName = nickName

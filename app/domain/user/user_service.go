@@ -6,17 +6,17 @@ import (
 )
 
 type UserService struct {
-	UserWriter IUserWriter `inject:"UserWrite"`
+	UserRepository IUserRepository `inject:"UserRepository"`
 }
 
 func (s *UserService) AddUser(user *inputs.UserInput) error {
-	return s.UserWriter.AddUser(user)
+	return s.UserRepository.AddUser(user)
 }
 
 func (s *UserService) GetUsers() []dtos.UserDto {
-	return s.UserWriter.GetUsers()
+	return s.UserRepository.GetUsers()
 }
 
 func (s *UserService) GetUser(id int64) *dtos.UserDto {
-	return s.UserWriter.GetUser(id)
+	return s.UserRepository.GetUser(id)
 }
