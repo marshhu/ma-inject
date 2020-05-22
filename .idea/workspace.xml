@@ -3,11 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="3d028d43-5dbc-4ca7-924e-191a9eac790a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/dal/user/user_write.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/dal/user/user_write.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/user/i_user_writer.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/user/i_user_repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/dal/user/user_write.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/dal/user/user_repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/user/i_user_reader.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/repositories/i_user_reader.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/user/i_user_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/repositories/i_user_repository.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/domain/user/user_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/user/user_service.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inject/container.go" beforeDir="false" afterPath="$PROJECT_DIR$/inject/container.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inject/init_container.go" beforeDir="false" afterPath="$PROJECT_DIR$/inject/init_container.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,6 +43,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\GoDemo\ma-inject\app\domain\repositories" />
       <recent name="D:\GoDemo\ma-inject\app\api\controllers" />
       <recent name="D:\GoDemo\ma-inject\app\domain\dtos\inputs" />
     </key>

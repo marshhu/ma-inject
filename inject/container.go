@@ -8,6 +8,8 @@ import (
 	"sync"
 )
 
+var injectTagName = "inject" //依赖注入tag名
+
 //生命周期
 // singleton：单例 单一实例，每次使用都是该实例
 // transient:瞬时实例,每次使用都创建新的实例
@@ -64,20 +66,25 @@ func (c *Container) entryValue(value reflect.Value) error {
 
 		fieldType := elemType.Field(i)
 		if fieldType.Anonymous {
-			fmt.Println(fieldType.Name + "是匿名字段")
+			//fmt.Println(fieldType.Name + "是匿名字段")
 			item := reflect.New(elemValue.Field(i).Type())
 			c.entryValue(item) //递归注入
 			elemValue.Field(i).Set(item.Elem())
 		} else {
-			fmt.Println(fieldType.Name)
-			tag := fieldType.Tag.Get("inject")
-			injectInstance, err := c.getInstance(tag)
-			if err != nil {
-				return err
-			}
-			c.entryValue(reflect.ValueOf(injectInstance)) //递归注入
+			if elemValue.Field(i).IsZero() { //零值才注入
+				//fmt.Println(elemValue.Field(i).Interface())
+				//fmt.Println(fieldType.Name)
+				tag := fieldType.Tag.Get(injectTagName)
+				injectInstance, err := c.getInstance(tag)
+				if err != nil {
+					return err
+				}
+				c.entryValue(reflect.ValueOf(injectInstance)) //递归注入
 
-			elemValue.Field(i).Set(reflect.ValueOf(injectInstance))
+				elemValue.Field(i).Set(reflect.ValueOf(injectInstance))
+			} else {
+				fmt.Println(fieldType.Name)
+			}
 		}
 	}
 	return nil

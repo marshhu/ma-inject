@@ -1,6 +1,8 @@
-package user
+package repositories
 
-import "ma-inject/app/domain/dtos/inputs"
+import (
+	"ma-inject/app/domain/dtos/inputs"
+)
 
 type IUserRepository interface {
 	IUserReader

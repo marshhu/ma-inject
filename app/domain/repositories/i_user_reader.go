@@ -1,4 +1,4 @@
-package user
+package repositories
 
 import "ma-inject/app/domain/dtos"
 

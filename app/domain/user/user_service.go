@@ -3,10 +3,11 @@ package user
 import (
 	"ma-inject/app/domain/dtos"
 	"ma-inject/app/domain/dtos/inputs"
+	"ma-inject/app/domain/repositories"
 )
 
 type UserService struct {
-	UserRepository IUserRepository `inject:"UserRepository"`
+	UserRepository repositories.IUserRepository `inject:"UserRepository"`
 }
 
 func (s *UserService) AddUser(user *inputs.UserInput) error {
