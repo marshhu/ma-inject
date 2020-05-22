@@ -10,7 +10,7 @@ go语言依赖注入demo
 
 服务层 - UserService
 
-仓储层 - UserWrite  UserRead 读写分离 
+仓储层 - UserRepository  UserRead 读仓储
 
 数据库 -db  读db  写db
 
