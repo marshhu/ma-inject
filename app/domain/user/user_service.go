@@ -1,9 +1,9 @@
 package user
 
 import (
-	"ma-inject/app/domain/dtos"
-	"ma-inject/app/domain/dtos/inputs"
-	"ma-inject/app/domain/repositories"
+	"github.com/marshhu/ma-inject/app/domain/dtos"
+	"github.com/marshhu/ma-inject/app/domain/dtos/inputs"
+	"github.com/marshhu/ma-inject/app/domain/repositories"
 )
 
 type UserService struct {

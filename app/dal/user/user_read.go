@@ -1,8 +1,8 @@
 package user
 
 import (
-	"ma-inject/app/dal/db"
-	"ma-inject/app/domain/dtos"
+	"github.com/marshhu/ma-inject/app/dal/db"
+	"github.com/marshhu/ma-inject/app/domain/dtos"
 )
 
 type UserRead struct {

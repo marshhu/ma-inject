@@ -1,6 +1,6 @@
 package repositories
 
-import "ma-inject/app/domain/dtos"
+import "github.com/marshhu/ma-inject/app/domain/dtos"
 
 type IUserReader interface {
 	GetUsers() []dtos.UserDto

@@ -1,7 +1,7 @@
 package inject
 
 import (
-	"ma-inject/app/api/controllers"
+	"github.com/marshhu/ma-inject/app/api/controllers"
 )
 
 type CtrlFactory struct {

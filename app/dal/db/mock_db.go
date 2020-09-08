@@ -1,6 +1,6 @@
 package db
 
-import "ma-inject/app/dal/entities"
+import "github.com/marshhu/ma-inject/app/dal/entities"
 
 //准备用户数据，实际开发一般从数据库读取
 var users []entities.UserEntity

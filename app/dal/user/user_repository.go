@@ -2,9 +2,9 @@ package user
 
 import (
 	"errors"
-	"ma-inject/app/dal/db"
-	"ma-inject/app/dal/entities"
-	"ma-inject/app/domain/dtos/inputs"
+	"github.com/marshhu/ma-inject/app/dal/db"
+	"github.com/marshhu/ma-inject/app/dal/entities"
+	"github.com/marshhu/ma-inject/app/domain/dtos/inputs"
 )
 
 type UserRepository struct {

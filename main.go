@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"log"
-	"ma-inject/inject"
-	"ma-inject/router"
+	"github.com/marshhu/ma-inject/inject"
+	"github.com/marshhu/ma-inject/router"
 	"net/http"
 	"os"
 	"os/signal"

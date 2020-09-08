@@ -1,4 +1,4 @@
-module ma-inject
+module github.com/marshhu/ma-inject
 
 go 1.14
 

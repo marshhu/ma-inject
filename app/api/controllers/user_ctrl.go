@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
-	"ma-inject/app/domain/dtos/inputs"
-	"ma-inject/app/domain/user"
+	"github.com/marshhu/ma-inject/app/domain/dtos/inputs"
+	"github.com/marshhu/ma-inject/app/domain/user"
 	"strconv"
 )
 

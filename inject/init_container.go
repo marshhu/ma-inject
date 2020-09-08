@@ -2,10 +2,10 @@ package inject
 
 import (
 	"fmt"
-	"ma-inject/app/api/controllers"
-	"ma-inject/app/dal/db"
-	"ma-inject/app/dal/user"
-	userDomain "ma-inject/app/domain/user"
+	"github.com/marshhu/ma-inject/app/api/controllers"
+	"github.com/marshhu/ma-inject/app/dal/db"
+	"github.com/marshhu/ma-inject/app/dal/user"
+	userDomain "github.com/marshhu/ma-inject/app/domain/user"
 )
 
 var GContainer = &Container{

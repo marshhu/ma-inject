@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"ma-inject/inject"
+	"github.com/marshhu/ma-inject/inject"
 )
 
 func Init() *gin.Engine {
