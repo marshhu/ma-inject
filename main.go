@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
-	"log"
 	"github.com/marshhu/ma-inject/inject"
 	"github.com/marshhu/ma-inject/router"
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
